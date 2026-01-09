@@ -1,0 +1,77 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  images    PublishedImage[]
+  videos    PublishedVideo[]
+  comments  Comment[]
+  hearts    Heart[]
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model PublishedImage {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String   @map("image_url")
+  prompt    String
+  hearts    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  comments  Comment[]
+  heartedBy Heart[]
+  @@map("published_images")
+}
+
+model Comment {
+  id         Int      @id @default(autoincrement())
+  content    String
+  createdAt  DateTime @default(now()) @map("created_at")
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  image      PublishedImage? @relation(fields: [imageId], references: [id])
+  imageId    Int?
+  video      PublishedVideo? @relation(fields: [videoId], references: [id])
+  videoId    Int?
+}
+
+model Heart {
+  id         Int      @id @default(autoincrement())
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  image      PublishedImage? @relation(fields: [imageId], references: [id])
+  imageId    Int?
+  video      PublishedVideo? @relation(fields: [videoId], references: [id])
+  videoId    Int?
+  createdAt  DateTime @default(now()) @map("created_at")
+  @@unique([userId, imageId, videoId])
+}
+
+model PublishedVideo {
+  id        Int      @id @default(autoincrement())
+  videoUrl  String   @map("video_url")
+  caption   String?
+  hearts    Int      @default(0)
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    Int?
+  comments  Comment[]
+  heartedBy Heart[]
+  @@map("published_videos")
+}
