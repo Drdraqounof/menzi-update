@@ -8,6 +8,7 @@ importers:
 
   .:
     dependencies:
+<<<<<<< HEAD
       '@neondatabase/serverless':
         specifier: ^1.0.2
         version: 1.0.2
@@ -20,9 +21,7 @@ importers:
       ws:
         specifier: ^8.19.0
         version: 8.19.0
-    devDependencies:
-      '@prisma/internals':
-        specifier: ^7.2.0
+        '@neondatabase/serverless':
         version: 7.2.0
       prisma:
         specifier: ^7.2.0
@@ -968,3 +967,18 @@ snapshots:
   zeptomatch@2.0.2:
     dependencies:
       grammex: 3.1.12
+=======
+      dotenv:
+        specifier: ^17.2.3
+        version: 17.2.3
+
+packages:
+
+  dotenv@17.2.3:
+    resolution: {integrity: sha512-JVUnt+DUIzu87TABbhPmNfVdBDt18BLOWjMUFJMSi/Qqg7NTYtabbvSNJGOJ7afbRuv9D/lngizHtP7QyLQ+9w==}
+    engines: {node: '>=12'}
+
+snapshots:
+
+  dotenv@17.2.3: {}
+>>>>>>> 1ff83b8e06075b50f55c19898d1fb473e66ec910
